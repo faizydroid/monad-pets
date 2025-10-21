@@ -1,18 +1,25 @@
+# Envio v2 Configuration
 name: monadgotchi-indexer
-description: Envio indexer for Monadgotchi virtual pet game on Monad testnet - Ready for deployment
-ecosystem: evm
+description: Envio indexer for Monadgotchi virtual pet game on Monad testnet
 
+# Specify the schema file
+schema: schema.graphql
+
+# Network configurations
 networks:
   - id: 10143
     start_block: 44404850
     rpc_url: https://testnet-rpc.monad.xyz
-    contracts:
-      - name: Monadgotchi
-        address:
-          - "0x750E675Fb7f1fBDe1944889AE12d311e3ae7E06b"
-        handler: src/EventHandlers.ts
-        events:
-          - event: PetMinted(uint256 indexed petId, address indexed owner, uint256 timestamp)
-          - event: PetHungerUpdated(uint256 indexed petId, uint256 newHungerLevel, uint256 timestamp)
-          - event: PetFainted(uint256 indexed petId, uint256 timestamp)
-          - event: PetFed(uint256 indexed petId, address indexed feeder, uint256 timestamp)
+
+# Contract configurations
+contracts:
+  - name: Monadgotchi
+    networks:
+      - id: 10143
+    address: "0x750E675Fb7f1fBDe1944889AE12d311e3ae7E06b"
+    handler: src/EventHandlers.ts
+    events:
+      - event: PetMinted(uint256 indexed petId, address indexed owner, uint256 timestamp)
+      - event: PetHungerUpdated(uint256 indexed petId, uint256 newHungerLevel, uint256 timestamp)
+      - event: PetFainted(uint256 indexed petId, uint256 timestamp)
+      - event: PetFed(uint256 indexed petId, address indexed feeder, uint256 timestamp)
