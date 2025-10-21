@@ -1,0 +1,76 @@
+"""
+Pet entity representing a Monadgotchi virtual pet NFT
+"""
+type Pet @entity {
+  id: ID!
+  petId: BigInt!
+  owner: String!
+  hunger: Int!
+  lastFeedBlock: BigInt!
+  lastFeedTimestamp: BigInt!
+  isFainted: Boolean!
+  createdAt: BigInt!
+  feedHistory: [FeedEvent!]! @derivedFrom(field: "pet")
+}
+
+"""
+FeedEvent entity representing a feed action on a pet
+"""
+type FeedEvent @entity {
+  id: ID!
+  pet: Pet!
+  petId: BigInt!
+  feeder: String!
+  timestamp: BigInt!
+  transactionHash: String!
+  blockNumber: BigInt!
+}
+
+"""
+Filter input for querying pets
+"""
+input PetFilter {
+  owner: String
+  hunger_gte: Int
+  hunger_lte: Int
+  isFainted: Boolean
+}
+
+"""
+Order by options for pet queries
+"""
+enum PetOrderBy {
+  petId_ASC
+  petId_DESC
+  hunger_ASC
+  hunger_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type Query {
+  """
+  Get a single pet by petId
+  """
+  pet(petId: BigInt!): Pet
+
+  """
+  Get multiple pets with optional filtering and ordering
+  """
+  pets(
+    where: PetFilter
+    orderBy: PetOrderBy
+    limit: Int
+    offset: Int
+  ): [Pet!]!
+
+  """
+  Get pets that are hungry (hunger >= minHunger threshold)
+  """
+  hungryPets(minHunger: Int!): [Pet!]!
+
+  """
+  Get feed events for a specific pet
+  """
+  feedEvents(petId: BigInt!, limit: Int, offset: Int): [FeedEvent!]!
+}

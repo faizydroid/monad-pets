@@ -1,0 +1,9 @@
+{
+  "contractAddress": "0x0000000000000000000000000000000000000000",
+  "envioEndpoint": "https://indexer.envio.dev/your-deployment-id/graphql",
+  "agentAddress": "0x0000000000000000000000000000000000000000",
+  "frontendUrl": "https://your-deployment.vercel.app",
+  "monadRpcUrl": "https://testnet.monad.xyz",
+  "chainId": 41454,
+  "testWalletPrivateKey": ""
+}

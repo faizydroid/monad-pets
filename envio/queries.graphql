@@ -1,0 +1,139 @@
+# Example GraphQL Queries for Monadgotchi Indexer
+
+# Query 1: Get a single pet by ID
+query GetPet($petId: BigInt!) {
+  pet(petId: $petId) {
+    id
+    petId
+    owner
+    hunger
+    lastFeedBlock
+    lastFeedTimestamp
+    isFainted
+    createdAt
+    feedHistory {
+      id
+      feeder
+      timestamp
+      transactionHash
+    }
+  }
+}
+
+# Query 2: Get all pets owned by an address
+query GetOwnerPets($owner: String!) {
+  pets(where: { owner: $owner }, orderBy: createdAt_DESC) {
+    id
+    petId
+    owner
+    hunger
+    lastFeedTimestamp
+    isFainted
+    createdAt
+  }
+}
+
+# Query 3: Get hungry pets (for Pet Sitter Agent)
+query GetHungryPets($minHunger: Int!) {
+  hungryPets(minHunger: $minHunger) {
+    id
+    petId
+    owner
+    hunger
+    lastFeedBlock
+    lastFeedTimestamp
+    isFainted
+  }
+}
+
+# Query 4: Get all pets with hunger above threshold
+query GetPetsAboveHunger($hungerThreshold: Int!) {
+  pets(where: { hunger_gte: $hungerThreshold }, orderBy: hunger_DESC) {
+    id
+    petId
+    owner
+    hunger
+    lastFeedTimestamp
+    isFainted
+  }
+}
+
+# Query 5: Get all fainted pets
+query GetFaintedPets {
+  pets(where: { isFainted: true }) {
+    id
+    petId
+    owner
+    hunger
+    lastFeedTimestamp
+    createdAt
+  }
+}
+
+# Query 6: Get feed history for a specific pet
+query GetFeedHistory($petId: BigInt!, $limit: Int) {
+  feedEvents(petId: $petId, limit: $limit) {
+    id
+    petId
+    feeder
+    timestamp
+    transactionHash
+    blockNumber
+  }
+}
+
+# Query 7: Get all pets (paginated)
+query GetAllPets($limit: Int, $offset: Int) {
+  pets(limit: $limit, offset: $offset, orderBy: petId_ASC) {
+    id
+    petId
+    owner
+    hunger
+    lastFeedTimestamp
+    isFainted
+    createdAt
+  }
+}
+
+# Query 8: Get recently created pets
+query GetRecentPets($limit: Int) {
+  pets(limit: $limit, orderBy: createdAt_DESC) {
+    id
+    petId
+    owner
+    hunger
+    createdAt
+  }
+}
+
+# Query 9: Get pets with low hunger (healthy pets)
+query GetHealthyPets($maxHunger: Int!) {
+  pets(where: { hunger_lte: $maxHunger, isFainted: false }, orderBy: hunger_ASC) {
+    id
+    petId
+    owner
+    hunger
+    lastFeedTimestamp
+  }
+}
+
+# Query 10: Get comprehensive pet data with feed history
+query GetPetWithHistory($petId: BigInt!) {
+  pet(petId: $petId) {
+    id
+    petId
+    owner
+    hunger
+    lastFeedBlock
+    lastFeedTimestamp
+    isFainted
+    createdAt
+    feedHistory {
+      id
+      feeder
+      timestamp
+      transactionHash
+      blockNumber
+    }
+  }
+}

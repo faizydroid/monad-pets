@@ -1,0 +1,46 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/frontend/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: packages/frontend/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: packages/frontend
+        run: npm ci
+      
+      - name: Build application
+        working-directory: packages/frontend
+        run: npm run build
+        env:
+          VITE_CONTRACT_ADDRESS: ${{ secrets.VITE_CONTRACT_ADDRESS }}
+          VITE_MONAD_RPC_URL: ${{ secrets.VITE_MONAD_RPC_URL }}
+          VITE_CHAIN_ID: ${{ secrets.VITE_CHAIN_ID }}
+          VITE_ENVIO_ENDPOINT: ${{ secrets.VITE_ENVIO_ENDPOINT }}
+          VITE_AGENT_ADDRESS: ${{ secrets.VITE_AGENT_ADDRESS }}
+      
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: packages/frontend
+          vercel-args: '--prod'

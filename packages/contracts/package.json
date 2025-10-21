@@ -1,0 +1,24 @@
+{
+  "name": "@monadgotchi/contracts",
+  "version": "1.0.0",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat run scripts/deploy.ts",
+    "deploy:monad": "hardhat run scripts/deploy.ts --network monad",
+    "verify": "hardhat run scripts/verify.ts --network monad",
+    "update-configs": "tsx scripts/update-configs.ts"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "@typechain/ethers-v6": "^0.4.3",
+    "@typechain/hardhat": "^8.0.3",
+    "hardhat": "^2.17.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@monadgotchi/types": "*",
+    "@openzeppelin/contracts": "^5.0.0"
+  }
+}

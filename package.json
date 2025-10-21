@@ -1,0 +1,40 @@
+{
+  "name": "monadgotchi",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "contracts:compile": "npm run compile --workspace=packages/contracts",
+    "contracts:test": "npm run test --workspace=packages/contracts",
+    "contracts:deploy": "npm run deploy --workspace=packages/contracts",
+    "contracts:deploy:monad": "npm run deploy:monad --workspace=packages/contracts",
+    "contracts:update-configs": "npm run update-configs --workspace=packages/contracts",
+    "agent:dev": "npm run dev --workspace=packages/agent",
+    "agent:start": "npm run start --workspace=packages/agent",
+    "agent:build": "npm run build --workspace=packages/agent",
+    "frontend:dev": "npm run dev --workspace=packages/frontend",
+    "frontend:build": "npm run build --workspace=packages/frontend",
+    "frontend:validate": "npm run validate --workspace=packages/frontend",
+    "envio:validate": "npm run validate --workspace=envio",
+    "e2e": "tsx scripts/e2e-test.ts",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.5",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-react": "^7.33.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "ethers": "^6.7.0",
+    "graphql": "^16.8.0",
+    "graphql-request": "^6.1.0",
+    "prettier": "^3.0.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.6"
+  }
+}
