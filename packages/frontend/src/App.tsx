@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { WalletConnect } from './components/WalletConnect';
 import { PetOwnership } from './components/PetOwnership';
@@ -8,12 +8,20 @@ import { FeedButton } from './components/FeedButton';
 import { DelegationButton } from './components/DelegationButton';
 import { PetStatus } from './components/PetStatus';
 import { TransactionHistory } from './components/TransactionHistory';
+import { DebugPanel } from './components/DebugPanel';
 import { usePet } from './hooks/useEnvio';
 
 function App() {
   const { address, isConnected } = useAccount();
   const [selectedPetId, setSelectedPetId] = useState<bigint | undefined>(undefined);
   const { data: pet } = usePet(selectedPetId);
+
+  // Reset selected pet when wallet disconnects
+  useEffect(() => {
+    if (!isConnected) {
+      setSelectedPetId(undefined);
+    }
+  }, [isConnected]);
 
   return (
     <div className="app">
@@ -63,6 +71,8 @@ function App() {
       <footer className="app-footer">
         <p>Built with ❤️ on Monad Testnet</p>
       </footer>
+      
+      <DebugPanel />
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { usePetsByOwner } from '../hooks/useEnvio';
 import { useMint } from '../hooks/useContract';
 
@@ -13,17 +14,50 @@ interface PetOwnershipProps {
 export function PetOwnership({ ownerAddress, onPetSelect, selectedPetId }: PetOwnershipProps) {
   const { data: pets, isLoading, error, refetch } = usePetsByOwner(ownerAddress);
   const { mint, isLoading: isMinting, isSuccess: mintSuccess, txHash } = useMint();
+  const previousPetCount = useRef<number>(0);
+  const hasMintedRef = useRef<boolean>(false);
 
   const handleMint = () => {
     if (mint) {
+      hasMintedRef.current = true;
       mint();
     }
   };
 
-  // Refetch pets after successful mint
-  if (mintSuccess && txHash) {
-    setTimeout(() => refetch(), 2000);
-  }
+  // Refetch pets after successful mint and auto-select the new pet
+  useEffect(() => {
+    if (mintSuccess && txHash) {
+      // For mock mode, trigger pet creation
+      const mintKey = `mock_mint_${ownerAddress.toLowerCase()}`;
+      localStorage.setItem(mintKey, 'true');
+      
+      const timer = setTimeout(() => {
+        refetch();
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [mintSuccess, txHash, refetch, ownerAddress]);
+
+  // Auto-select the newly minted pet or first pet if none selected
+  useEffect(() => {
+    if (pets && pets.length > 0) {
+      // If we just minted a pet and the count increased, select the newest pet
+      if (hasMintedRef.current && pets.length > previousPetCount.current) {
+        // Find the pet with the highest ID (newest)
+        const newestPet = pets.reduce((newest, current) => 
+          current.petId > newest.petId ? current : newest
+        );
+        onPetSelect(newestPet.petId);
+        hasMintedRef.current = false;
+      }
+      // If no pet is selected and we have pets, select the first one
+      else if (selectedPetId === undefined) {
+        onPetSelect(pets[0].petId);
+      }
+      
+      previousPetCount.current = pets.length;
+    }
+  }, [pets, selectedPetId, onPetSelect]);
 
   if (isLoading) {
     return (
@@ -57,7 +91,7 @@ export function PetOwnership({ ownerAddress, onPetSelect, selectedPetId }: PetOw
 
           {mintSuccess && txHash && (
             <div className="transaction-status status-success">
-              Pet minted successfully!{' '}
+              Pet minted successfully! Loading your new pet...{' '}
               <a
                 href={`https://explorer.testnet.monad.xyz/tx/${txHash}`}
                 target="_blank"
@@ -88,7 +122,7 @@ export function PetOwnership({ ownerAddress, onPetSelect, selectedPetId }: PetOw
 
       {mintSuccess && txHash && (
         <div className="transaction-status status-success">
-          New pet minted!{' '}
+          New pet minted! Your newest pet has been automatically selected.{' '}
           <a
             href={`https://explorer.testnet.monad.xyz/tx/${txHash}`}
             target="_blank"

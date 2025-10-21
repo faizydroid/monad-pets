@@ -103,7 +103,7 @@ export function usePetsByOwner(owner: string | undefined) {
       });
 
       setState({
-        data: response.pets,
+        data: response.pets || null,
         isLoading: false,
         error: null,
       });
@@ -158,7 +158,7 @@ export function useFeedEvents(petId: bigint | undefined) {
       );
 
       setState({
-        data: response.feedEvents,
+        data: response.feedEvents || null,
         isLoading: false,
         error: null,
       });

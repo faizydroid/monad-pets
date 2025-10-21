@@ -1,0 +1,18 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fainted Pet -->
+  <circle cx="64" cy="64" r="50" fill="#9E9E9E" stroke="#616161" stroke-width="3"/>
+  <!-- X eyes -->
+  <g stroke="#000" stroke-width="3" stroke-linecap="round">
+    <line x1="45" y1="45" x2="55" y2="55"/>
+    <line x1="55" y1="45" x2="45" y2="55"/>
+    <line x1="73" y1="45" x2="83" y2="55"/>
+    <line x1="83" y1="45" x2="73" y2="55"/>
+  </g>
+  <!-- Open mouth -->
+  <ellipse cx="64" cy="80" rx="8" ry="12" fill="#000"/>
+  <!-- Dizzy stars -->
+  <g fill="#FFD700" opacity="0.8">
+    <polygon points="30,25 32,30 37,30 33,33 35,38 30,35 25,38 27,33 23,30 28,30" />
+    <polygon points="95,30 97,35 102,35 98,38 100,43 95,40 90,43 92,38 88,35 93,35" />
+  </g>
+</svg>

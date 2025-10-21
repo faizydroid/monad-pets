@@ -25,36 +25,40 @@ export function PetDisplay({ hunger, isFainted }: PetDisplayProps) {
     return 'happy';
   }, [hunger, isFainted]);
 
-  const getEmoji = () => {
+  const getAssetPath = () => {
     switch (petState) {
       case 'happy':
-        return '😊';
+        return '/assets/pets/happy.svg';
       case 'hungry':
-        return '😐';
+        return '/assets/pets/hungry.svg';
       case 'very-hungry':
-        return '😟';
+        return '/assets/pets/very-hungry.svg';
       case 'fainted':
-        return '😵';
+        return '/assets/pets/fainted.svg';
     }
   };
 
   const getStateLabel = () => {
     switch (petState) {
       case 'happy':
-        return 'Happy';
+        return 'Happy & Content';
       case 'hungry':
-        return 'Hungry';
+        return 'Getting Hungry';
       case 'very-hungry':
         return 'Very Hungry!';
       case 'fainted':
-        return 'Fainted';
+        return 'Fainted from Hunger';
     }
   };
 
   return (
     <div className={`pet-display pet-state-${petState}`}>
       <div className="pet-sprite">
-        <div className="pet-emoji">{getEmoji()}</div>
+        <img 
+          src={getAssetPath()} 
+          alt={`Pet is ${petState}`}
+          className="pet-image"
+        />
       </div>
       <div className="pet-state-label">{getStateLabel()}</div>
     </div>

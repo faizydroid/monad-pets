@@ -3,6 +3,12 @@ import { AgentConfig, ContractConfig, EnvioConfig } from '@monadgotchi/types';
 import * as path from 'path';
 
 // Load environment variables from root .env file
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
 export interface Config {

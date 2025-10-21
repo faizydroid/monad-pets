@@ -1,0 +1,13 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hungry Pet -->
+  <circle cx="64" cy="64" r="50" fill="#FF9800" stroke="#F57C00" stroke-width="3"/>
+  <!-- Eyes -->
+  <circle cx="50" cy="50" r="8" fill="#000"/>
+  <circle cx="78" cy="50" r="8" fill="#000"/>
+  <circle cx="52" cy="48" r="3" fill="#FFF"/>
+  <circle cx="80" cy="48" r="3" fill="#FFF"/>
+  <!-- Neutral mouth -->
+  <line x1="50" y1="78" x2="78" y2="78" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+  <!-- Sweat drop -->
+  <ellipse cx="25" cy="40" rx="4" ry="8" fill="#2196F3" opacity="0.7"/>
+</svg>
