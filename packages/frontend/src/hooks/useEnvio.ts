@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { envioClient, queries } from '../utils/envioClient';
 import { config } from '../utils/config';
 
+// Check if Envio is available
+const ENVIO_AVAILABLE = Boolean(config.envioEndpoint);
+
 export interface Pet {
   id: string;
   petId: bigint;
@@ -43,6 +46,25 @@ export function usePet(petId: bigint | undefined) {
       return;
     }
 
+    // If Envio is not available, return mock data
+    if (!ENVIO_AVAILABLE) {
+      setState({
+        data: {
+          id: petId.toString(),
+          petId,
+          owner: '0x0000000000000000000000000000000000000000',
+          hunger: 50, // Default hunger level
+          lastFeedBlock: BigInt(0),
+          lastFeedTimestamp: BigInt(Date.now() / 1000),
+          isFainted: false,
+          createdAt: BigInt(Date.now() / 1000),
+        },
+        isLoading: false,
+        error: 'Envio indexer not available - showing default data',
+      });
+      return;
+    }
+
     try {
       setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
@@ -51,7 +73,7 @@ export function usePet(petId: bigint | undefined) {
       });
 
       setState({
-        data: response.pet,
+        data: response.pet || null,
         isLoading: false,
         error: null,
       });
